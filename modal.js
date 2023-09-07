@@ -16,6 +16,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelector(".close")
+let form = document.querySelector("form")
 let baliseFirst = document.getElementById("first")
 let baliseLast = document.getElementById("last")
 let baliseEmail = document.getElementById("email")
@@ -29,24 +30,19 @@ let baliseCheckbox2 = document.getElementById("checkbox2")
  * Cette fonction actualise les DOM Elements
  * 
  * 
-
+*/
 function updateInputDOM() {
-
-}*/
+  baliseFirst.addEventListener('change', validerNom)
+  baliseLast.addEventListener('change', validerNom)
+  baliseBirthdate.addEventListener('change', validerDate)
+  baliseEmail.addEventListener('change', validerEmail)
+  baliseQuantity.addEventListener('change', validerQuantity)
+  /*baliseLocation.forEach((checkboxLocation) => checkboxLocation.addEventListener('change', validerLocation))*/
+  baliseCheckbox1.addEventListener('change', validerCG)
+}
   
 
-// ------ Variable ------
-let first = baliseFirst.value
-console.log(first)
-let last = baliseLast.value
-console.log(last)
-let email = baliseEmail.value
-console.log(email)
-let birthdate = baliseBirthdate.value
-console.log(birthdate)
-let quantity = baliseQuantity.value
-console.log(quantity)
-let form = document.querySelector("form")
+
 
 
 // ------ launch modal event ------ 
@@ -70,9 +66,9 @@ function closeModal() {
 //Accepte les majuscules, minuscules, caractères accentués, espace (\s) aprostrophes et tirets
 const nomPrenomRegEx = new RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]{2,}$") 
 const emailRegEx = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-const numberRegEx = new RegExp("^\d+$/")
+const numberRegEx = new RegExp("^\\d+$")
 // de 0 à 9 puis 10 à 29 puis 30 et 31 / mois / puis année commence par 19 ou 20
-const dateRegex = new RegExp("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\d{2}$") 
+const dateRegEx = new RegExp("^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$") 
 
 /**
  * Cette fonction prend un nom ou prénom en paramètre et valide qu'il est au bon format
@@ -154,14 +150,35 @@ function validerCG(checkbox) {
 // ------ function Submit ajouter event.preventDefault() ------ 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+
+  // Recuperer les valeurs des champs 
+  let first = baliseFirst.value
+  console.log(first)
+  let last = baliseLast.value
+  console.log(last)
+  let email = baliseEmail.value
+  console.log(email)
+  let birthdate = baliseBirthdate.value
+  console.log(birthdate)
+  let quantity = baliseQuantity.value
+  console.log(quantity)
+  /*let checkbox1 = baliseCheckbox1.checked*/
+
+  let form = document.querySelector("form")
   
   try {
-    validerNom(nom);
-    validerNom(prenom);
-    validerDate(date);
-    validerEmail(email);
+    validerNom(first)
+    console.log("First OK")
+    validerNom(last)
+    console.log("Last OK")
+    validerDate(birthdate)
+    console.log("birthdate OK")
+    validerEmail(email)
+    console.log("email OK")
     validerQuantity(quantity)
-    console.log("Validation OK")
+    console.log("nombre OK")
+    /* validerCG(checkbox1)
+    console.log("CG checkbox ok")*/
     form.submit;
     console.log("Soumission OK")  
   } catch(Error) {
