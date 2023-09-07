@@ -25,12 +25,27 @@ let baliseLocation = document.querySelectorAll("input[name='location']")
 let baliseCheckbox1 = document.getElementById("checkbox1")
 let baliseCheckbox2 = document.getElementById("checkbox2")
 
+/**
+ * Cette fonction actualise les DOM Elements
+ * 
+ * 
+
+function updateInputDOM() {
+
+}*/
+  
+
 // ------ Variable ------
 let first = baliseFirst.value
+console.log(first)
 let last = baliseLast.value
+console.log(last)
 let email = baliseEmail.value
+console.log(email)
 let birthdate = baliseBirthdate.value
+console.log(birthdate)
 let quantity = baliseQuantity.value
+console.log(quantity)
 let form = document.querySelector("form")
 
 
@@ -67,9 +82,9 @@ const dateRegex = new RegExp("^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\
  */
 function validerNom(nom) {
     if (!nomPrenomRegEx.test(nom)) {
+      console.log("erreur nom")
         throw new Error("Le nom est trop court. ")
-        console.log("erreur nom")
-    }   
+    }  
 }
 
 /**
@@ -79,37 +94,78 @@ function validerNom(nom) {
  */
 function validerEmail(email) {
     if (!emailRegEx.test(email)) {
-      throw new Error("L'email n'est pas valide.")
       console.log("erreur email")
+      throw new Error("L'email n'est pas valide.")
   }
 }
 
 /**
  * Cette fonction prend la date de naissance en paramètre.
  * Elle valide qu'elle est au bon format. 
- * @param {string} date 
+ * @param {date} date 
  * @throws {Error}
  */
 function validerDate(date) {
   if (!dateRegEx.test(date)) {
-    throw new Error("Votre date de naissance n'est pas valide.")
     console.log("erreur date")
+    throw new Error("Votre date de naissance n'est pas valide.")
   }
 }
 
 /**
  * Cette fonction prend la date de naissance en paramètre.
  * Elle valide que l'individu a plus de 18 ans. 
- * @param {string} date 
+ * @param {date} date 
  * @throws {Error}
- */
+ 
 function validerAge(date) {
   if (!dateRegEx.test(date)) {
     throw new Error("Votre date de naissance n'est pas valide.")
   }
+} */
+function validerQuantity(quantity) {
+  if (!numberRegEx.test(quantity)) {
+      console.log("erreur nombre")
+      throw new Error("Votre nombre de participation n'est pas un nombre.")
+  }
 }
+
+/**
+ * Cette fonction vérifie que les condition générales sont acceptées.
+ * @param {string} checkbox1 
+ * @throws {Error}
+ */
+function validerCG(checkbox) {
+  if (!checkbox.checked) {
+    console.log("erreur CG")
+    throw new Error("Vous n'avez pas acceptez les conditions d'utilisations.")
+  }
+}
+
+/**
+ * Cette fonction vérifie qu'une ville est choisie.
+ * @param {string} checkbox1 
+ * @throws {Error}
+ */
+
+
 
 
 // ------ function Submit ajouter event.preventDefault() ------ 
 form.addEventListener("submit", (event) => {
-  event.preventDefault() })
+  event.preventDefault();
+  
+  try {
+    validerNom(nom);
+    validerNom(prenom);
+    validerDate(date);
+    validerEmail(email);
+    validerQuantity(quantity)
+    console.log("Validation OK")
+    form.submit;
+    console.log("Soumission OK")  
+  } catch(Error) {
+    console.log("Erreur a été Catch")
+  }
+}
+);
