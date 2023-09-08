@@ -62,29 +62,29 @@
               method="get"
             >
               <div
-                class="formData">
+                class="form-data">
                 <label class="first-label" for="first">Prénom</label><br>
                 <input
                   class="text-control"
                   type="text"
                   id="first"
                   name="first"
-                  minlength="2"
                 /><br>
               </div>
+              <span class="form-alert" id="message-first"></span>
               <div
-                class="formData">
+                class="form-data">
                 <label class="last-label" for="last">Nom</label><br>
                 <input
                   class="text-control"
                   type="text"
                   id="last"
                   name="last"
-                  minlength="2"
                 /><br>
               </div>
+              <span class="form-alert" id="message-name"></span>
               <div
-                class="formData">
+                class="form-data">
                 <label class="email-label" for="email">E-mail</label><br>
                 <input
                   class="text-control"
@@ -93,8 +93,9 @@
                   name="email"
                 /><br>
               </div>
+              <span class="form-alert" id="message-mail"></span>
               <div
-                class="formData">
+                class="form-data">
                 <label class="birthdate-label" for="birthdate">Date de naissance</label><br>
                 <input
                   class="text-control"
@@ -103,14 +104,15 @@
                   name="birthdate"
                 /><br>
               </div>
+              <span class="form-alert" id="message-date"></span>
               <div
-                class="formData">
+                class="form-data">
                 <label class="quantity-label" for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
-                class="formData">
+                class="form-data">
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -180,12 +182,12 @@
               </div>
 
               <div
-                class="formData">
+                class="form-data">
                 <input
                   class="checkbox-input"
                   type="checkbox"
                   id="checkbox1"
-                  checked
+                  
                 />
                 <label class="checkbox2-label" for="checkbox1" required>  <!-- Change class to checkbox1-label-->
                   <span class="checkbox-icon"></span>
