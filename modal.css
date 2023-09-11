@@ -211,7 +211,6 @@ input {
 .form-alert {
   font-size: 0.6em;
   color: #e54858;
-  border: 2px solid #e54858;
 }
 /*
 .form-data[data-error]::after {

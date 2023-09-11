@@ -19,7 +19,7 @@ const form = document.querySelector("form")
 const tagFirst = document.querySelector("#first")
 const messageFirst = document.querySelector("#message-first")
 const tagLast = document.querySelector("#last")
-const messageNom = document.querySelector("#message-name")
+const messageName = document.querySelector("#message-name")
 const tagEmail = document.querySelector("#email")
 const messageMail = document.querySelector("#message-mail")
 const tagBirthdate = document.querySelector("#birthdate")
@@ -28,7 +28,8 @@ const tagQuantity = document.querySelector("#quantity")
 const tagLocation = document.querySelectorAll("input[name='location']")
 const tagCheckbox1 = document.querySelector("#checkbox1")
 const tagCheckbox2 = document.querySelector("#checkbox2")
-const formErrors = { shortName : "Il faut au minimum 2 charactères.", 
+const formErrors = { shortName : "Il faut au minimum 2 charactères.",
+                   badName : "Un caractère n'est pas reconnu. Merci de corriger.",
                    badEmail : "Veuillez renseigner une adresse mail valide.",
                    tooYoung : "Vous devez avoir plus de 18 ans pour participer",
                    afterToday : "Etes vous vraiment né dans le futur ?",
@@ -38,26 +39,10 @@ const formErrors = { shortName : "Il faut au minimum 2 charactères.",
                    noCity : "Merci de selectionner une ville.",
                    RefuseCG : "Vous devez accepter les Conditions générales de participation."}  
 
-/**
- * Cette fonction actualise les DOM Elements
- * 
- * 
-
-function updateInputDOM() {
-  tagFirst.addEventListener('change', checkName)
-  tagLast.addEventListener('change', checkName)
-  tagBirthdate.addEventListener('change', checkBDate)
-  tagEmail.addEventListener('change', checkEmail)
-  tagQuantity.addEventListener('change', checkQuantity)
-
-  tagCheckbox1.addEventListener('change', validerCG)
-} */
-  
-
 // ------ Launch modal event ------ 
 modalBtn.addEventListener("click", launchModal);  
 
-// ------ function launch modal ------ 
+// This function display the modal  
 function launchModal() {
   modalbg.style.display = "block";
 }
@@ -65,64 +50,67 @@ function launchModal() {
 // ------ close modal event ------ 
 closeBtn.addEventListener("click", closeModal);
 
-// ------ function close modal  ------ 
+// This function hide the modal 
 function closeModal() {
   modalbg.style.display = "none"
 }
 
 // ------ Expression régulière RegEx ------
-//Accepte les majuscules, minuscules, caractères accentués, espace (\s) aprostrophes et tirets
-const nameFirstRegEx = new RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]{2,}$") 
-const emailRegEx = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-const numberRegEx = new RegExp("^\\d+$")
+// Accepte les majuscules, minuscules, caractères accentués, espace (\s) aprostrophes et tirets
+const nameFirstRegEx = new RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$") 
+const emailRegEx = new RegExp("^[a-zA-Z0-9._-]{2,}@[a-zA-Z0-9.-]{2,}\.[a-zA-Z]{2,}$")
+const twoOrMoreRegEx = /.{2,}/;
+const numberRegEx = /^\d+$/;
 // de 0 à 9 puis 10 à 29 puis 30 et 31 / mois / puis année commence par 19 ou 20
 const dateRegEx = new RegExp("^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$") 
 
-/**
- * Cette fonction prend un nom ou prénom en paramètre et valide qu'il est au bon format
- * ici : repond au caractéristique de la nameFirstRegex 
- * @param {string} param 
- * @throw {Error}
+/** This function check that the name / firstname are 
+ *  - using normal letters 
+ *  - have more than 2 letters  
  */
-function checkName(param) {
-  console.log("message prenom",messageFirst)
-    if (!nameFirstRegEx.test(param)) {
-      messageFirst.innerText = formErrors.shortName
-    }  
+function checkName(firstOrName,messageLoc) {
+  if (!twoOrMoreRegEx.test(firstOrName)) {
+    messageLoc.innerText = formErrors.shortName
+  } else if (!nameFirstRegEx.test(firstOrName)) {
+      messageLoc.innerText = formErrors.badName
+    }
+  else {
+    messageLoc.innerText = "";
+  }
 }
 
-/**
- * Cette fonction prend un email en paramètre et valide qu'il est au bon format. 
- * @param {string} email 
- * @throws {Error}
- */
+/** This function Check that email is correct */
 function checkEmail(email) {
     if (!emailRegEx.test(email)) {
       messageMail.innerText = formErrors.badEmail
+  }
+  else {
+    messageMail.innerText = "";
   }
 }
 
 /**
  * Cette fonction prend la date de naissance en paramètre.
  * Elle valide qu'elle est au bon format. 
- * @param {date} date 
- * @throws {Error}
  */
 function checkBDate(date) {
   if (!dateRegEx.test(date)) {
+    messageDate.innerText = formErrors.badDate
+  }
+  if (!twoOrMoreRegEx.test(date)) {
     messageDate.innerText = formErrors.badDate
   }
 }
 
 /**
  * Cette fonction prend la date de naissance en paramètre.
- * Elle valide que l'individu a plus de 18 ans. 
- * @param {date} date 
- * @throws {Error}
- 
+ * Elle valide que l'individu a plus de 18 ans.
+ * N'a pas plus de 130 ans.
+ * N'est pas né après la date du jour.
+
 function validerAge(date) {
   if (!dateRegEx.test(date)) {
-    throw new Error("Votre date de naissance n'est pas valide.")
+     new Error("Votre date de naissance n'est pas valide.")
   }
 } */
 function checkQuantity(quantity) {
@@ -151,44 +139,59 @@ function validerCG(checkbox) {
  */
 
 
-
-
-// ------ function Submit ajouter event.preventDefault() ------ 
+// ------ function Submit ------ 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   // Recuperer les valeurs des champs 
-  const first = tagFirst.value
-  console.log(first)
-  const last = tagLast.value
-  console.log(last)
-  const email = tagEmail.value
-  console.log(email)
-  const birthdate = tagBirthdate.value
-  console.log(birthdate)
-  const quantity = tagQuantity.value
-  console.log(quantity)
-  /*const checkbox1 = tagCheckbox1.checked*/
 
-  const form = document.querySelector("form")
+  const birthdate = tagBirthdate.value
+    console.log(birthdate)
+  const quantity = tagQuantity.value
+    console.log(quantity)
+  /*const checkbox1 = tagCheckbox1.checked
+  const form = document.querySelector("form")*/
   
   try {
-    checkName(first)
-    console.log("First OK")
-    checkName(last)
-    console.log("Last OK")
+    // 1st form control on submission event
+    checkName(tagFirst.value,messageFirst);
+    checkName(tagLast.value,messageName);
+    checkEmail(tagEmail.value);
+
+    // Submission control on change event
+    tagFirst.addEventListener('change', () => {
+      checkName(tagFirst.value,messageFirst);
+    });
+    tagLast.addEventListener('change', () => {
+      checkName(tagLast.value,messageName);
+    });
+    tagEmail.addEventListener('change', () => {
+      checkEmail(tagEmail.value);
+    });
+ 
+    
+
     checkBDate(birthdate)
-    console.log("birthdate OK")
-    checkEmail(email)
-    console.log("email OK")
+      console.log("birthdate OK")
+
+      console.log("email OK")
     checkQuantity(quantity)
-    console.log("nombre OK")
+      console.log("nombre OK")
     /* validerCG(checkbox1)
     console.log("CG checkbox ok")
     form.submit;*/
-    console.log("Soumission OK")  
+      console.log("Soumission OK")  
+
+
+      const submissionForm = { fistName : tagFirst.value,
+        lastName : tagLast.value,
+        email : tagEmail.value,
+        birthdate : tagBirthdate.value,
+        numberParticipation : tagQuantity.value,
+        newsletter : tagCheckbox2.checked ? "accept" : "Refused"
+       }
   } catch(Error) {
-    console.log("Erreur a été Catch")
+      console.log("Erreur a été Catch")
   }
 }
 );
