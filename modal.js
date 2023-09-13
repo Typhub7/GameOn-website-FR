@@ -15,6 +15,8 @@ const modalBtn = document.querySelector(".modal-btn");
 const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
+const modalBody = document.querySelector(".modal-body")
+
 let tagFirst = document.querySelector("#first")
 let messageFirst = document.querySelector("#message-first")
 let tagLast = document.querySelector("#last")
@@ -163,7 +165,6 @@ function checkLocation(location) {
   }
 }
 
-
 // ------ function Submit ------ 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -213,6 +214,21 @@ form.addEventListener("submit", (event) => {
         Terms : tagCheckbox.checked ? "Accept" : "Refused",
         newsletter : tagCheckbox2.checked ? "Accept" : "Refused"
        }
+       console.log("Données renvoyée par le formulaire :", submissionForm)
+    
+    form.style.display = "none"       // Hide the form
+
+    const confirmMessage =
+    `    <div class="confirm-modal">
+            <h1 class="confirm-modal-txt"> 
+              Merci pour votre inscription
+            </h1>
+            <button class="confirm-modal-btn close-btn"> 
+              Fermer
+            </button>
+          </div>
+   `
+    modalBody.innerHTML += confirmMessage
 
     // Form destination URL
     const url = 'https://OCGameon.com/submit-form';
@@ -227,6 +243,7 @@ form.addEventListener("submit", (event) => {
     fetch(url, requestOptions)
       .then(response => {
         if (response.ok) {
+          formBody.reset()        // If Ok, Clean the form
           return response.json(); // If answer is ok, response can be add here         } else {
           throw new Error('Échec de la requête');
         }
