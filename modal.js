@@ -12,6 +12,7 @@ function editNav() {
 // ------ DOM Elements ------ 
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelector(".modal-btn");
+const confirmModalBtn = document.querySelector(".confirm-modal-btn");
 const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
@@ -32,6 +33,7 @@ let messageLocation = document.querySelector("#message-location")
 let tagCheckbox = document.querySelector("#checkbox1")
 let messageCG = document.querySelector("#message-cg")
 let tagCheckbox2 = document.querySelector("#checkbox2")
+let errorDetected = false
 
 // ----- Other Variable ------
 const currentDate = new Date()
@@ -65,6 +67,7 @@ function launchModal() {
 
 // ------ Close modal event ------ 
 closeBtn.addEventListener("click", closeModal);
+confirmModalBtn.addEventListener("click", closeModal);
 
 // This function hide the modal 
 function closeModal() {
@@ -80,9 +83,11 @@ function closeModal() {
  */
 function checkName(firstOrName,messageLoc) {
   if (!twoOrMoreRegEx.test(firstOrName)) {
-    messageLoc.innerText = formErrors.shortName
+    messageLoc.innerText = formErrors.shortName;
+    errorDetected = true;
   } else if (!nameFirstRegEx.test(firstOrName)) {
-      messageLoc.innerText = formErrors.badName
+      messageLoc.innerText = formErrors.badName;
+      errorDetected = true;
     }
   else {
     messageLoc.innerText = "";
@@ -92,7 +97,8 @@ function checkName(firstOrName,messageLoc) {
 /** This function Check that email is correct */
 function checkEmail(email) {
     if (!emailRegEx.test(email)) {
-      messageMail.innerText = formErrors.badEmail
+      messageMail.innerText = formErrors.badEmail;
+      errorDetected = true;
   }
   else {
     messageMail.innerText = "";
@@ -118,11 +124,14 @@ function checkBDate(date) {
   let userAge = currentYear - userYear
 
   if (!dateRegEx.test(date)) {
-    messageDate.innerText = formErrors.badDate
+    messageDate.innerText = formErrors.badDate;
+    errorDetected = true;
   } else if ( userAge < 0 ) {
-    messageDate.innerText = formErrors.futureMan
+    messageDate.innerText = formErrors.futureMan;
+    errorDetected = true;
   } else if ( userAge < 18 ) {
-    messageDate.innerText = formErrors.tooYoung
+    messageDate.innerText = formErrors.tooYoung;
+    errorDetected = true;
   } else {
     messageDate.innerText = "";
   }
@@ -132,7 +141,8 @@ function checkBDate(date) {
 */
 function checkQuantity(quantity) {
   if (!numberRegEx.test(quantity)) {
-    messageQuantity.innerText = formErrors.badQuantity
+    messageQuantity.innerText = formErrors.badQuantity;
+    errorDetected = true;
   } else {
     messageQuantity.innerText = "";
   }
@@ -142,7 +152,8 @@ function checkQuantity(quantity) {
  */
 function checkCG(checkbox) {
   if (!checkbox.checked) {
-    messageCG.innerText = formErrors.refuseCG
+    messageCG.innerText = formErrors.refuseCG;
+    errorDetected = true;
   } else {
     messageCG.innerText = "";
   }
@@ -161,13 +172,16 @@ function checkLocation(location) {
   if (isChecked) {
     messageLocation.innerText = "";
   } else {
-    messageLocation.innerText = formErrors.noCity;
+    messageLocation.innerText = formErrors.noCity;;
+    errorDetected = true;
   }
 }
 
 // ------ function Submit ------ 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+
+  errorDetected = false;
   
   try {
     // 1st form control on submission event
@@ -202,6 +216,11 @@ form.addEventListener("submit", (event) => {
       checkLocation(tagLocation); 
     }));
 
+    if (errorDetected) {
+      console.log("Le formulaire contient des erreurs. Veuillez les corriger.");
+      return;
+    }
+
       console.log("Soumission OK")  
 
     // Adding form info object
@@ -223,7 +242,7 @@ form.addEventListener("submit", (event) => {
             <h1 class="confirm-modal-txt"> 
               Merci pour votre inscription
             </h1>
-            <button class="confirm-modal-btn close-btn"> 
+            <button class="confirm-modal-btn button close-btn"> 
               Fermer
             </button>
           </div>
@@ -245,6 +264,8 @@ form.addEventListener("submit", (event) => {
         if (response.ok) {
           formBody.reset()        // If Ok, Clean the form
           return response.json(); // If answer is ok, response can be add here         } else {
+          
+        } else {
           throw new Error('Échec de la requête');
         }
       })

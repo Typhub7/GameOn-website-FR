@@ -3,6 +3,7 @@
   --font-slab: var(--font-default);
   --modal-duration: 0.8s;
 }
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,7 +15,7 @@
 body {
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
+  /*background-image: url("background.png");*/
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -31,7 +32,7 @@ p {
   margin: 3.5%;
 }
 .header-logo {
-    float: left;
+  float: left;
 }
 
 .header-logo img {
@@ -151,10 +152,6 @@ main {
   background: #3876ac;
 }
 
-.smFont {
-  font-size: 16px;
-}
-
 .bground {
   display: none;
   position: fixed;
@@ -193,11 +190,13 @@ label {
   display: inline-block;
   margin-bottom: 11px;
 }
+
 input {
   padding: 8px;
   border: 0.8px solid #ccc;
   outline: none;
 }
+
 .text-control {
   margin: 0;
   padding: 8px;
@@ -460,8 +459,6 @@ footer {
     text-align: center;
   }
 }
-
-
 
 @keyframes modalopen {
   from {
