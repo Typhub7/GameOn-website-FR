@@ -8,6 +8,7 @@
   margin: 0;
   padding: 0;
 }
+
 /* Landing Page */
 
 body {
@@ -25,10 +26,6 @@ p {
   padding: 0.5vw;
 }
 
-img {
-  padding-right: 1rem;
-}
-
 .topnav {
   overflow: hidden;
   margin: 3.5%;
@@ -36,6 +33,13 @@ img {
 .header-logo {
     float: left;
 }
+
+.header-logo img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+} 
+
 .main-navbar {
     float: right;
 }
@@ -499,6 +503,27 @@ footer {
     margin-top: 50px;
     text-align: center;
   }
+}
+
+.thanks-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.thanks-container-text {
+  height: 80%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  font-size: 2.25rem;
+  text-align: center;
+  font-weight: 400;
+}
+.thanks-container-btn {
+  height: auto;
+
 }
 
 @keyframes modalopen {

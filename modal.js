@@ -139,9 +139,7 @@ function checkQuantity(quantity) {
 /** This function check if the term and conditions box is checked.
  */
 function checkCG(checkbox) {
-  console.log("lacheckbox est ",checkbox)
   if (!checkbox.checked) {
-    console.log("ma checkbox vaut", checkbox.checked)
     messageCG.innerText = formErrors.refuseCG
   } else {
     messageCG.innerText = "";
@@ -169,14 +167,6 @@ function checkLocation(location) {
 // ------ function Submit ------ 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-
-  // Recuperer les valeurs des champs 
-
-  const birthdate = tagBirthdate.value
-    console.log(birthdate)
-  const quantity = tagQuantity.value
-    console.log(quantity)
-
   
   try {
     // 1st form control on submission event
@@ -208,12 +198,12 @@ form.addEventListener("submit", (event) => {
       checkCG(tagCheckbox);
     });
     tagLocation.forEach((isNewLocationChecked) => isNewLocationChecked.addEventListener('change', function() {
-      checkLocation(); 
+      checkLocation(tagLocation); 
     }));
 
       console.log("Soumission OK")  
 
-
+    // Adding form info object
     const submissionForm = { 
         fistName : tagFirst.value,
         lastName : tagLast.value,
@@ -223,7 +213,30 @@ form.addEventListener("submit", (event) => {
         Terms : tagCheckbox.checked ? "Accept" : "Refused",
         newsletter : tagCheckbox2.checked ? "Accept" : "Refused"
        }
-       
+
+    // Form destination URL
+    const url = 'https://OCGameon.com/submit-form';
+
+    // Fetch parameters 
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(submissionForm)
+    };
+
+    fetch(url, requestOptions)
+      .then(response => {
+        if (response.ok) {
+          return response.json(); // If answer is ok, response can be add here         } else {
+          throw new Error('Échec de la requête');
+        }
+      })
+      .then(data => {
+        // The server's answer if need
+        console.log('Réponse du serveur :', data);
+      })
+
+
   } catch(error) {
       console.error("Erreur lors de la soumission du formulaire")
   }
