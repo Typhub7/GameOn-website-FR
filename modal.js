@@ -1,7 +1,7 @@
 /** This function is used to toggle the header in responsive
  */
 function editNav() {
-  const topNav = document.getElementById("myTopnav");
+  const topNav = document.getElementById("mytopnav");
   if (topNav.className === "topnav") {
     topNav.className += " responsive";
   } else {
@@ -12,27 +12,25 @@ function editNav() {
 // ------ DOM Elements ------ 
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelector(".modal-btn");
-const confirmModalBtn = document.querySelector(".confirm-modal-btn");
 const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
 const modalBody = document.querySelector(".modal-body")
-
-let tagFirst = document.querySelector("#first")
-let messageFirst = document.querySelector("#message-first")
-let tagLast = document.querySelector("#last")
-let messageName = document.querySelector("#message-name")
-let tagEmail = document.querySelector("#email")
-let messageMail = document.querySelector("#message-mail")
-let tagBirthdate = document.querySelector("#birthdate")
-let messageDate = document.querySelector("#message-date")
-let tagQuantity = document.querySelector("#quantity")
-let messageQuantity = document.querySelector("#message-quantity")
-let tagLocation = document.getElementsByName("location")
-let messageLocation = document.querySelector("#message-location")
-let tagCheckbox = document.querySelector("#checkbox1")
-let messageCG = document.querySelector("#message-cg")
-let tagCheckbox2 = document.querySelector("#checkbox2")
+const tagFirst = document.querySelector("#first")
+const messageFirst = document.querySelector("#message-first")
+const tagLast = document.querySelector("#last")
+const messageName = document.querySelector("#message-name")
+const tagEmail = document.querySelector("#email")
+const messageMail = document.querySelector("#message-mail")
+const tagBirthdate = document.querySelector("#birthdate")
+const messageDate = document.querySelector("#message-date")
+const tagQuantity = document.querySelector("#quantity")
+const messageQuantity = document.querySelector("#message-quantity")
+const tagLocation = document.getElementsByName("location")
+const messageLocation = document.querySelector("#message-location")
+const tagCheckbox = document.querySelector("#checkbox1")
+const messageCG = document.querySelector("#message-cg")
+const tagCheckbox2 = document.querySelector("#checkbox2")
 let errorDetected = false
 
 // ----- Other Variable ------
@@ -67,7 +65,7 @@ function launchModal() {
 
 // ------ Close modal event ------ 
 closeBtn.addEventListener("click", closeModal);
-confirmModalBtn.addEventListener("click", closeModal);
+
 
 // This function hide the modal 
 function closeModal() {
@@ -94,7 +92,7 @@ function checkName(firstOrName,messageLoc) {
   }
 }
 
-/** This function Check that email is correct */
+// This function Check that email is correct 
 function checkEmail(email) {
     if (!emailRegEx.test(email)) {
       messageMail.innerText = formErrors.badEmail;
@@ -137,8 +135,8 @@ function checkBDate(date) {
   }
 }
 
-/** This function check that the participation is a number.
-*/
+// This function check that the participation is a number.
+
 function checkQuantity(quantity) {
   if (!numberRegEx.test(quantity)) {
     messageQuantity.innerText = formErrors.badQuantity;
@@ -148,8 +146,8 @@ function checkQuantity(quantity) {
   }
 }
 
-/** This function check if the term and conditions box is checked.
- */
+// This function check if the term and conditions box is checked.
+
 function checkCG(checkbox) {
   if (!checkbox.checked) {
     messageCG.innerText = formErrors.refuseCG;
@@ -159,8 +157,8 @@ function checkCG(checkbox) {
   }
 }
 
-/** This function ckeck is a city is chosen.
- */
+// This function ckeck is a city is chosen.
+
 function checkLocation(location) {
   let isChecked = false;
   for (let i = 0; i < location.length; i++) {
@@ -177,44 +175,75 @@ function checkLocation(location) {
   }
 }
 
+/** This function :
+ * Check the value of the form buy calling individual checking function 
+ * Control on Event change, that the new form value is valid (same check)
+*/
+const globalValidation = () => {
+  // 1st form control on submission event
+  checkName(tagFirst.value,messageFirst);
+  checkName(tagLast.value,messageName);
+  checkEmail(tagEmail.value);
+  checkBDate(tagBirthdate.value);
+  checkQuantity(tagQuantity.value);
+  checkCG(tagCheckbox);
+  checkLocation(tagLocation);
+
+  // Submission control on change event
+  tagFirst.addEventListener('change', () => {
+    checkName(tagFirst.value,messageFirst);
+  });
+  tagLast.addEventListener('change', () => {
+    checkName(tagLast.value,messageName);
+  });
+  tagEmail.addEventListener('change', () => {
+    checkEmail(tagEmail.value);
+  });
+  tagBirthdate.addEventListener('change', () => {
+    checkBDate(tagBirthdate.value);
+  });
+  tagQuantity.addEventListener('change', () => {
+    checkQuantity(tagQuantity.value);
+  });
+  tagCheckbox.addEventListener('change', () => {
+    checkCG(tagCheckbox);
+  });
+  tagLocation.forEach((isNewLocationChecked) => isNewLocationChecked.addEventListener('change', function() {
+    checkLocation(tagLocation); 
+  }));
+}
+
+const validationFetch = async () => {
+  
+    // Form destination URL
+    const url = 'https://OCGameon.com/submit-form';
+
+    // Fetch parameters 
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(submissionForm)
+    };
+
+    const response = await fetch(url, requestOptions)
+    if (response.ok) {
+      formBody.reset()        // If Ok, Clean the form
+      console.log('Réponse du serveur :', response)
+      return response.json(); // If answer is ok, response can be add here         } else {    
+    } else {
+      throw new Error('Échec de la requête');
+    } 
+}
+
 // ------ function Submit ------ 
 form.addEventListener("submit", (event) => {
-  event.preventDefault();
+  event.preventDefault()
 
-  errorDetected = false;
+  errorDetected = false
   
   try {
-    // 1st form control on submission event
-    checkName(tagFirst.value,messageFirst);
-    checkName(tagLast.value,messageName);
-    checkEmail(tagEmail.value);
-    checkBDate(tagBirthdate.value);
-    checkQuantity(tagQuantity.value);
-    checkCG(tagCheckbox);
-    checkLocation(tagLocation);
-
-    // Submission control on change event
-    tagFirst.addEventListener('change', () => {
-      checkName(tagFirst.value,messageFirst);
-    });
-    tagLast.addEventListener('change', () => {
-      checkName(tagLast.value,messageName);
-    });
-    tagEmail.addEventListener('change', () => {
-      checkEmail(tagEmail.value);
-    });
-    tagBirthdate.addEventListener('change', () => {
-      checkBDate(tagBirthdate.value);
-    });
-    tagQuantity.addEventListener('change', () => {
-      checkQuantity(tagQuantity.value);
-    });
-    tagCheckbox.addEventListener('change', () => {
-      checkCG(tagCheckbox);
-    });
-    tagLocation.forEach((isNewLocationChecked) => isNewLocationChecked.addEventListener('change', function() {
-      checkLocation(tagLocation); 
-    }));
+    
+    globalValidation()
 
     if (errorDetected) {
       console.log("Le formulaire contient des erreurs. Veuillez les corriger.");
@@ -234,7 +263,9 @@ form.addEventListener("submit", (event) => {
         newsletter : tagCheckbox2.checked ? "Accept" : "Refused"
        }
        console.log("Données renvoyée par le formulaire :", submissionForm)
-    
+  
+    validationFetch()
+
     form.style.display = "none"       // Hide the form
 
     const confirmMessage =
@@ -248,32 +279,8 @@ form.addEventListener("submit", (event) => {
           </div>
    `
     modalBody.innerHTML += confirmMessage
-
-    // Form destination URL
-    const url = 'https://OCGameon.com/submit-form';
-
-    // Fetch parameters 
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(submissionForm)
-    };
-
-    fetch(url, requestOptions)
-      .then(response => {
-        if (response.ok) {
-          formBody.reset()        // If Ok, Clean the form
-          return response.json(); // If answer is ok, response can be add here         } else {
-          
-        } else {
-          throw new Error('Échec de la requête');
-        }
-      })
-      .then(data => {
-        // The server's answer if need
-        console.log('Réponse du serveur :', data);
-      })
-
+    const confirmModalBtn = document.querySelector(".confirm-modal-btn");
+    confirmModalBtn.addEventListener("click", closeModal);
 
   } catch(error) {
       console.error("Erreur lors de la soumission du formulaire")
