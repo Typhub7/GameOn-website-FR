@@ -11,7 +11,7 @@ function editNav() {
 
 // ------ DOM Elements ------ 
 const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelector(".modal-btn");
+const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
@@ -55,17 +55,16 @@ const numberRegEx = /^\d+$/;
 // de 0 à 9 puis 10 à 29 puis 30 et 31 / mois / puis année commence par 19 ou 20
 const dateRegEx = new RegExp("^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$") 
 
-// ------ Launch modal event ------ 
-modalBtn.addEventListener("click", launchModal);  
+// ------ Open and Close modal event ------ 
+modalBtn.forEach(launchBtn => {
+  launchBtn.addEventListener("click", launchModal);
+})
+closeBtn.addEventListener("click", closeModal); 
 
 // This function display the modal  
 function launchModal() {
   modalbg.style.display = "block";
 }
-
-// ------ Close modal event ------ 
-closeBtn.addEventListener("click", closeModal);
-
 
 // This function hide the modal 
 function closeModal() {
