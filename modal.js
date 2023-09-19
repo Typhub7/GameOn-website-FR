@@ -212,7 +212,7 @@ const globalValidation = () => {
   }));
 }
 
-const validationFetch = async () => {
+const validationFetch = async (submissionForm) => {
   
     // Form destination URL
     const url = 'https://OCGameon.com/submit-form';
@@ -263,7 +263,7 @@ form.addEventListener("submit", (event) => {
        }
        console.log("Données renvoyée par le formulaire :", submissionForm)
   
-    validationFetch()
+    validationFetch(submissionForm)
 
     form.style.display = "none"       // Hide the form
 
