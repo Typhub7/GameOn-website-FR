@@ -16,6 +16,7 @@ const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
 const modalBody = document.querySelector(".modal-body")
+const formBody = document.querySelector(".form-body")
 const tagFirst = document.querySelector("#first")
 const messageFirst = document.querySelector("#message-first")
 const tagLast = document.querySelector("#last")
@@ -62,7 +63,7 @@ modalBtn.forEach(launchBtn => {
 closeBtn.addEventListener("click", closeModal); 
 
 // This function display the modal  
-function launchModal() {
+function launchModal() { 
   modalbg.style.display = "block";
 }
 
@@ -135,7 +136,6 @@ function checkBDate(date) {
 }
 
 // This function check that the participation is a number.
-
 function checkQuantity(quantity) {
   if (!numberRegEx.test(quantity)) {
     messageQuantity.innerText = formErrors.badQuantity;
@@ -146,7 +146,6 @@ function checkQuantity(quantity) {
 }
 
 // This function check if the term and conditions box is checked.
-
 function checkCG(checkbox) {
   if (!checkbox.checked) {
     messageCG.innerText = formErrors.refuseCG;
@@ -238,7 +237,7 @@ const validationFetch = async (submissionForm) => {
 form.addEventListener("submit", (event) => {
   event.preventDefault()
 
-  errorDetected = false
+  errorDetected = false 
   
   try {
     
@@ -265,7 +264,7 @@ form.addEventListener("submit", (event) => {
   
     validationFetch(submissionForm)
 
-    form.style.display = "none"       // Hide the form
+    formBody.style.display="none"       // Hide the form form.style.display="none"
 
     const confirmMessage =
     `    <div class="confirm-modal">
@@ -279,7 +278,16 @@ form.addEventListener("submit", (event) => {
    `
     modalBody.innerHTML += confirmMessage
     const confirmModalBtn = document.querySelector(".confirm-modal-btn");
-    confirmModalBtn.addEventListener("click", closeModal);
+    confirmModalBtn.addEventListener("click", () => {
+      const confirmModal = document.querySelector(".confirm-modal");
+      modalBody.removeChild(confirmModal);
+      //formBody.reset();
+      console.log("Button cliqué")
+      //form.style.display = "block"
+      form.removeAttribute("style"); //formBody
+      console.log("le style devrait être enlevé")
+      closeModal(); 
+    });
 
   } catch(error) {
       console.error("Erreur lors de la soumission du formulaire")

@@ -99,6 +99,9 @@ main {
 }
 
 /* Modal form */
+.form {
+  display : block;
+}
 .button {
   background: #fe142f;
   margin-top: 0.5em;
