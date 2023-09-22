@@ -69,7 +69,7 @@ p {
 }
 
 main {
-  padding-top: 0.5vw;
+  padding-top: 0.5vh;
   padding-left: 2vw;
   padding-right: 2vw;
   margin: 1px 20px 15px;
@@ -99,9 +99,10 @@ main {
 }
 
 /* Modal form */
-.form {
-  display : block;
+.hidden {
+  display : none;
 }
+
 .button {
   background: #fe142f;
   margin-top: 0.5em;
@@ -462,8 +463,9 @@ footer {
   }
 }
 
-/* Animation*/ 
 
+
+/* Animation*/ 
 @keyframes modalopen {
   from {
     opacity: 0;

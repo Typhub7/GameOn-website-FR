@@ -3,7 +3,7 @@
 function editNav() {
   const topNav = document.getElementById("mytopnav");
   if (topNav.className === "topnav") {
-    topNav.className += " responsive";
+    topNav.className += "responsive";
   } else {
     topNav.className = "topnav";
   }
@@ -12,7 +12,7 @@ function editNav() {
 // ------ DOM Elements ------ 
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelector(".form-data");
+//const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
 const modalBody = document.querySelector(".modal-body")
@@ -156,7 +156,6 @@ function checkCG(checkbox) {
 }
 
 // This function ckeck is a city is chosen.
-
 function checkLocation(location) {
   let isChecked = false;
   for (let i = 0; i < location.length; i++) {
@@ -211,9 +210,46 @@ const globalValidation = () => {
   }));
 }
 
+// This function hide the form and insert a thanks message
+function thanksDisplay () {
+  form.classList.add("hidden");     // Hide the form form.style.display="none"
+
+  const confirmMessage =
+  `    <div class="confirm-modal">
+          <h1 class="confirm-modal-txt"> 
+            Merci pour votre inscription
+          </h1>
+          <button class="confirm-modal-btn button close-btn"> 
+            Fermer
+          </button>
+        </div>
+  `
+  modalBody.innerHTML += confirmMessage
+}
+
+// This function remove the Thanks message and reset the form 
+
+function closeThanks () {
+  const confirmModalBtn = document.querySelector(".confirm-modal-btn");
+  const confirmModal = document.querySelector(".confirm-modal");
+  
+  function closeModalHandler () {
+    console.log(form)
+    form.classList.toggle("hidden");
+    console.log(form)
+    form.offsetWidth;
+    confirmModalBtn.removeEventListener("click",closeModalHandler);
+    modalBody.removeChild(confirmModal);
+    closeModal();
+  }
+
+  confirmModalBtn.addEventListener("click",closeModalHandler);
+  
+}
+
 const validationFetch = async (submissionForm) => {
   
-    // Form destination URL
+    // Form destination fake URL add for example
     const url = 'https://OCGameon.com/submit-form';
 
     // Fetch parameters 
@@ -240,7 +276,6 @@ form.addEventListener("submit", (event) => {
   errorDetected = false 
   
   try {
-    
     globalValidation()
 
     if (errorDetected) {
@@ -248,7 +283,7 @@ form.addEventListener("submit", (event) => {
       return;
     }
 
-      console.log("Soumission OK")  
+    console.log("Soumission OK")  
 
     // Adding form info object
     const submissionForm = { 
@@ -263,31 +298,8 @@ form.addEventListener("submit", (event) => {
        console.log("Données renvoyée par le formulaire :", submissionForm)
   
     validationFetch(submissionForm)
-
-    formBody.style.display="none"       // Hide the form form.style.display="none"
-
-    const confirmMessage =
-    `    <div class="confirm-modal">
-            <h1 class="confirm-modal-txt"> 
-              Merci pour votre inscription
-            </h1>
-            <button class="confirm-modal-btn button close-btn"> 
-              Fermer
-            </button>
-          </div>
-   `
-    modalBody.innerHTML += confirmMessage
-    const confirmModalBtn = document.querySelector(".confirm-modal-btn");
-    confirmModalBtn.addEventListener("click", () => {
-      const confirmModal = document.querySelector(".confirm-modal");
-      modalBody.removeChild(confirmModal);
-      //formBody.reset();
-      console.log("Button cliqué")
-      //form.style.display = "block"
-      form.removeAttribute("style"); //formBody
-      console.log("le style devrait être enlevé")
-      closeModal(); 
-    });
+    thanksDisplay()
+    closeThanks()
 
   } catch(error) {
       console.error("Erreur lors de la soumission du formulaire")
