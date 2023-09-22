@@ -12,7 +12,7 @@ function editNav() {
 // ------ DOM Elements ------ 
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-//const formData = document.querySelector(".form-data");
+const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
 const modalBody = document.querySelector(".modal-body")
@@ -64,13 +64,15 @@ closeBtn.addEventListener("click", closeModal);
 
 // This function display the modal  
 function launchModal() { 
-  modalbg.style.display = "block";
+  modalbg.classList.remove("hidden");
 }
 
 // This function hide the modal 
 function closeModal() {
-  modalbg.style.display = "none"
+ modalbg.classList.add("hidden");   
 }
+
+/** All Check Function **/
 
 /** This function check that the name / firstname are 
  *  - using normal letters 
@@ -172,6 +174,8 @@ function checkLocation(location) {
   }
 }
 
+/**  ALL other function **/
+
 /** This function :
  * Check the value of the form buy calling individual checking function 
  * Control on Event change, that the new form value is valid (same check)
@@ -212,7 +216,7 @@ const globalValidation = () => {
 
 // This function hide the form and insert a thanks message
 function thanksDisplay () {
-  form.classList.add("hidden");     // Hide the form form.style.display="none"
+  form.classList.add("hidden");     // Hide the form
 
   const confirmMessage =
   `    <div class="confirm-modal">
@@ -234,20 +238,35 @@ function closeThanks () {
   const confirmModal = document.querySelector(".confirm-modal");
   
   function closeModalHandler () {
+    // remove hiden from form and reset it
     console.log(form)
-    form.classList.toggle("hidden");
+    form.classList.remove("hidden");
+    formBody.reset();
     console.log(form)
-    form.offsetWidth;
+
+    // close Listerner event
     confirmModalBtn.removeEventListener("click",closeModalHandler);
+
+    // Remove thanks text
     modalBody.removeChild(confirmModal);
     closeModal();
   }
-
   confirmModalBtn.addEventListener("click",closeModalHandler);
-  
 }
 
-const validationFetch = async (submissionForm) => {
+const validationFetch = async () => {
+
+    // Adding form info object
+    const submissionForm = { 
+      fistName : tagFirst.value,
+      lastName : tagLast.value,
+      email : tagEmail.value,
+      birthdate : tagBirthdate.value,
+      numberParticipation : tagQuantity.value,
+      Terms : tagCheckbox.checked ? "Accept" : "Refused",
+      newsletter : tagCheckbox2.checked ? "Accept" : "Refused"
+      }
+      console.log("Données renvoyée par le formulaire :", submissionForm)
   
     // Form destination fake URL add for example
     const url = 'https://OCGameon.com/submit-form';
@@ -269,6 +288,8 @@ const validationFetch = async (submissionForm) => {
     } 
 }
 
+
+
 // ------ function Submit ------ 
 form.addEventListener("submit", (event) => {
   event.preventDefault()
@@ -283,23 +304,14 @@ form.addEventListener("submit", (event) => {
       return;
     }
 
-    console.log("Soumission OK")  
-
-    // Adding form info object
-    const submissionForm = { 
-        fistName : tagFirst.value,
-        lastName : tagLast.value,
-        email : tagEmail.value,
-        birthdate : tagBirthdate.value,
-        numberParticipation : tagQuantity.value,
-        Terms : tagCheckbox.checked ? "Accept" : "Refused",
-        newsletter : tagCheckbox2.checked ? "Accept" : "Refused"
-       }
-       console.log("Données renvoyée par le formulaire :", submissionForm)
-  
-    validationFetch(submissionForm)
+    console.log("Formulaire correctement rempli")
+ 
+    validationFetch()
+    console.log("ValidationFetch OK")
     thanksDisplay()
+    console.log("thanksDisplay Ok")
     closeThanks()
+    console.log("closeThanks Ok")
 
   } catch(error) {
       console.error("Erreur lors de la soumission du formulaire")
