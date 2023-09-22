@@ -287,13 +287,9 @@ const validationFetch = async () => {
       throw new Error('Échec de la requête');
     } 
 }
-
-
-
-// ------ function Submit ------ 
-form.addEventListener("submit", (event) => {
+function submitAndFetch(event) {
   event.preventDefault()
-
+  
   errorDetected = false 
   
   try {
@@ -317,4 +313,9 @@ form.addEventListener("submit", (event) => {
       console.error("Erreur lors de la soumission du formulaire")
   }
 }
-);
+
+
+// ------ function Submit ------ 
+form.addEventListener("submit", event => submitAndFetch(event))
+
+
