@@ -357,7 +357,7 @@ input {
   z-index: 1;
   height: 100%;
   width: 100%;
-  min-height: 650px;
+  max-height: 650px;
   padding: 0.5vh 2vw 0 2vw;
 }
 
