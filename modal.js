@@ -1,5 +1,4 @@
-/** This function is used to toggle the header in responsive
- */
+// This function is used to toggle the header menu
 function editNav() {
   const topNav = document.getElementById("mytopnav");
   if (topNav.className === "topnav") {
@@ -12,29 +11,33 @@ function editNav() {
 // ------ DOM Elements ------ 
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelector(".form-data");
 const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
 const modalBody = document.querySelector(".modal-body")
 const formBody = document.querySelector(".form-body")
+
+// ID for form informations
 const tagFirst = document.querySelector("#first")
-const messageFirst = document.querySelector("#message-first")
 const tagLast = document.querySelector("#last")
-const messageName = document.querySelector("#message-name")
 const tagEmail = document.querySelector("#email")
-const messageMail = document.querySelector("#message-mail")
 const tagBirthdate = document.querySelector("#birthdate")
-const messageDate = document.querySelector("#message-date")
 const tagQuantity = document.querySelector("#quantity")
-const messageQuantity = document.querySelector("#message-quantity")
 const tagLocation = document.getElementsByName("location")
-const messageLocation = document.querySelector("#message-location")
 const tagCheckbox = document.querySelector("#checkbox1")
-const messageCG = document.querySelector("#message-cg")
 const tagCheckbox2 = document.querySelector("#checkbox2")
-let errorDetected = false
+
+// ID for error alert Message
+const messageFirst = document.querySelector("#message-first")
+const messageName = document.querySelector("#message-name")
+const messageMail = document.querySelector("#message-mail")
+const messageDate = document.querySelector("#message-date")
+const messageQuantity = document.querySelector("#message-quantity")
+const messageLocation = document.querySelector("#message-location")
+const messageCG = document.querySelector("#message-cg")
+
 
 // ----- Other Variable ------
+let errorDetected = false
 const currentDate = new Date()
 const formErrors = { shortName : "Il faut au minimum 2 charactères.",
                    badName : "Un caractère n'est pas reconnu. Merci de corriger.",
@@ -56,14 +59,14 @@ const numberRegEx = /^\d+$/;
 // de 0 à 9 puis 10 à 29 puis 30 et 31 / mois / puis année commence par 19 ou 20
 const dateRegEx = new RegExp("^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$") 
 
-// ------ Open and Close modal event ------ 
+// ------ Event listener for open and close modal  ------ 
 modalBtn.forEach(launchBtn => {
   launchBtn.addEventListener("click", launchModal);
 })
 closeBtn.addEventListener("click", closeModal); 
 
 // This function display the modal  
-function launchModal() { 
+function launchModal() {
   modalbg.classList.remove("hidden");
 }
 
@@ -72,7 +75,7 @@ function closeModal() {
  modalbg.classList.add("hidden");   
 }
 
-/** All Check Function **/
+/** All Check informations Function **/
 
 /** This function check that the name / firstname are 
  *  - using normal letters 
@@ -216,7 +219,7 @@ const globalValidation = () => {
 
 // This function hide the form and insert a thanks message
 function thanksDisplay () {
-  form.classList.add("hidden");     // Hide the form
+  /* formBody.classList.add("hidden");     */// Hide the form
 
   const confirmMessage =
   `    <div class="confirm-modal">
@@ -238,20 +241,23 @@ function closeThanks () {
   const confirmModal = document.querySelector(".confirm-modal");
   
   function closeModalHandler () {
-    // remove hiden from form and reset it
+    // Remove thanks text
+    modalBody.removeChild(confirmModal);
+    
+    // remove hidden from form and reset it
     console.log(form)
-    form.classList.remove("hidden");
+    formBody.classList.remove("hidden");
     formBody.reset();
     console.log(form)
 
-    // close Listerner event
+    // Close Listerner event
     confirmModalBtn.removeEventListener("click",closeModalHandler);
 
-    // Remove thanks text
-    modalBody.removeChild(confirmModal);
+    
     closeModal();
   }
   confirmModalBtn.addEventListener("click",closeModalHandler);
+  
 }
 
 const validationFetch = async () => {
@@ -279,6 +285,7 @@ const validationFetch = async () => {
     };
 
     const response = await fetch(url, requestOptions)
+
     if (response.ok) {
       formBody.reset()        // If Ok, Clean the form
       console.log('Réponse du serveur :', response)
