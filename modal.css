@@ -106,7 +106,7 @@ main {
 
 .btn-submit,
 .btn-signup,
-.confirm-modal-btn {
+.thanks-modal-btn {
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -189,7 +189,8 @@ main {
 
 /* Modal form */
 
-.bground {
+.bground,
+.thanks {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -200,7 +201,8 @@ main {
   background-color: rgba(26, 39, 156, 0.4);
 }
 
-.content {
+.content, 
+.thanks-modal {
   margin: 5% auto;
   width: 100%;
   max-width: 500px;
@@ -350,16 +352,16 @@ input {
 }
 
 /* Confirm Modal */
-.confirm-modal {
-  width: 100%;
+
+.thanks-modal {
+  z-index: 1;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
   min-height: 650px;
+  padding: 0.5vh 2vw 0 2vw;
 }
 
-.confirm-modal-txt {
+.thanks-modal-txt {
   height: 80%;
   flex: 1;
   display: flex;

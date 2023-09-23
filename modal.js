@@ -15,6 +15,8 @@ const closeBtn = document.querySelector(".close")
 const form = document.querySelector("form")
 const modalBody = document.querySelector(".modal-body")
 const formBody = document.querySelector(".form-body")
+const thanksModalBtn = document.querySelector(".thanks-modal-btn");
+const thanks = document.querySelector(".thanks");
 
 // ID for form informations
 const tagFirst = document.querySelector("#first")
@@ -60,19 +62,27 @@ const numberRegEx = /^\d+$/;
 const dateRegEx = new RegExp("^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$") 
 
 // ------ Event listener for open and close modal  ------ 
-modalBtn.forEach(launchBtn => {
-  launchBtn.addEventListener("click", launchModal);
-})
+modalBtn.forEach(launchBtn => {launchBtn.addEventListener("click", launchModal);})
 closeBtn.addEventListener("click", closeModal); 
 
 // This function display the modal  
-function launchModal() {
-  modalbg.classList.remove("hidden");
-}
+function launchModal() {modalbg.classList.remove("hidden");}
 
 // This function hide the modal 
 function closeModal() {
  modalbg.classList.add("hidden");   
+}
+// ------ Event listener for close thanks  ------ 
+thanksModalBtn.addEventListener("click", closeThanks); 
+
+// This function display the thanks  
+function launchThanks() {
+  thanks.classList.remove("hidden");
+}
+
+// This function hide the thanks 
+function closeThanks() {
+ thanks.classList.add("hidden");   
 }
 
 /** All Check informations Function **/
@@ -168,7 +178,7 @@ function checkLocation(location) {
       isChecked = true;
       break;
     }
-  }
+  } 
   if (isChecked) {
     messageLocation.innerText = "";
   } else {
@@ -194,70 +204,15 @@ const globalValidation = () => {
   checkLocation(tagLocation);
 
   // Submission control on change event
-  tagFirst.addEventListener('change', () => {
-    checkName(tagFirst.value,messageFirst);
-  });
-  tagLast.addEventListener('change', () => {
-    checkName(tagLast.value,messageName);
-  });
-  tagEmail.addEventListener('change', () => {
-    checkEmail(tagEmail.value);
-  });
-  tagBirthdate.addEventListener('change', () => {
-    checkBDate(tagBirthdate.value);
-  });
-  tagQuantity.addEventListener('change', () => {
-    checkQuantity(tagQuantity.value);
-  });
-  tagCheckbox.addEventListener('change', () => {
-    checkCG(tagCheckbox);
-  });
+  tagFirst.addEventListener('change', () => {checkName(tagFirst.value,messageFirst);});
+  tagLast.addEventListener('change', () => {checkName(tagLast.value,messageName);});
+  tagEmail.addEventListener('change', () => {checkEmail(tagEmail.value);});
+  tagBirthdate.addEventListener('change', () => {checkBDate(tagBirthdate.value);});
+  tagQuantity.addEventListener('change', () => {checkQuantity(tagQuantity.value);});
+  tagCheckbox.addEventListener('change', () => {checkCG(tagCheckbox);});
   tagLocation.forEach((isNewLocationChecked) => isNewLocationChecked.addEventListener('change', function() {
     checkLocation(tagLocation); 
   }));
-}
-
-// This function hide the form and insert a thanks message
-function thanksDisplay () {
-  /* formBody.classList.add("hidden");     */// Hide the form
-
-  const confirmMessage =
-  `    <div class="confirm-modal">
-          <h1 class="confirm-modal-txt"> 
-            Merci pour votre inscription
-          </h1>
-          <button class="confirm-modal-btn button close-btn"> 
-            Fermer
-          </button>
-        </div>
-  `
-  modalBody.innerHTML += confirmMessage
-}
-
-// This function remove the Thanks message and reset the form 
-
-function closeThanks () {
-  const confirmModalBtn = document.querySelector(".confirm-modal-btn");
-  const confirmModal = document.querySelector(".confirm-modal");
-  
-  function closeModalHandler () {
-    // Remove thanks text
-    modalBody.removeChild(confirmModal);
-    
-    // remove hidden from form and reset it
-    console.log(form)
-    formBody.classList.remove("hidden");
-    formBody.reset();
-    console.log(form)
-
-    // Close Listerner event
-    confirmModalBtn.removeEventListener("click",closeModalHandler);
-
-    
-    closeModal();
-  }
-  confirmModalBtn.addEventListener("click",closeModalHandler);
-  
 }
 
 const validationFetch = async () => {
@@ -306,23 +261,22 @@ function submitAndFetch(event) {
       console.log("Le formulaire contient des erreurs. Veuillez les corriger.");
       return;
     }
-
     console.log("Formulaire correctement rempli")
  
     validationFetch()
     console.log("ValidationFetch OK")
-    thanksDisplay()
-    console.log("thanksDisplay Ok")
-    closeThanks()
-    console.log("closeThanks Ok")
+    formBody.reset();     // Remove It when validation fetch will be ok
+    closeModal();
+    console.log("close Modal Ok")
+
+    launchThanks();
+    console.log("thanks Display Ok")
+
 
   } catch(error) {
       console.error("Erreur lors de la soumission du formulaire")
   }
 }
 
-
 // ------ function Submit ------ 
 form.addEventListener("submit", event => submitAndFetch(event))
-
-
