@@ -21,7 +21,7 @@ body {
 
 p {
   margin-bottom: 0;
-  padding: 0.5vw;
+  padding: 0.5%;
 }
 
 .hidden {
@@ -31,7 +31,7 @@ p {
 /* Header Navigation Menu */
 .topnav {
   overflow: hidden;
-  margin: 3.5%;
+  margin: 20px;
 }
 
 .topnav .icon {
@@ -75,7 +75,7 @@ p {
 }
 
 main {
-  padding: 0.5vh 2vw 0 2vw;
+  padding: 0.5% 2% 0 2%;
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
@@ -159,7 +159,7 @@ main {
   font-size: clamp(2.5rem, 6vw ,6rem);
   white-space: nowrap;
   font-weight: normal;
-  width: 80vw;
+  width: 80%;
 }
 
 .hero-text {
@@ -167,7 +167,7 @@ main {
   font-size: clamp(0.813rem, 2vw, 1.5rem);
   margin-top: 57px;
   padding: 0;
-  width: 23vw;
+  width: 23%;
   min-width: 220px;
 }
 
@@ -358,7 +358,7 @@ input {
   height: 100%;
   width: 100%;
   max-height: 650px;
-  padding: 0.5vh 2vw 0 2vw;
+  padding: 0.5% 2% 0 2%;
 }
 
 .thanks-modal-txt {
@@ -410,9 +410,18 @@ footer {
     text-align: left;
   }
 
+  .header-logo {
+    width: 950px;
+    height: 22.5px;
+  
+  }
   .header-logo img {
     width: 50%;
+    object-fit :contain;
+    object-position: left;
   }
+  
+
 
   .hero-section {
     display: flex;
@@ -439,7 +448,7 @@ footer {
   }
 
   .hero-text {
-    width: 80vw;
+    width: 80%;
   }
 
   .hero-img img {

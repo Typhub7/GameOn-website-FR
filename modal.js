@@ -2,7 +2,7 @@
 function editNav() {
   const topNav = document.getElementById("mytopnav");
   if (topNav.className === "topnav") {
-    topNav.className += "responsive";
+    topNav.className += " responsive";
   } else {
     topNav.className = "topnav";
   }
@@ -53,12 +53,16 @@ const formErrors = { shortName : "Il faut au minimum 2 charactères.",
 
                    
 // ------ Regular Expression RegEx ------
-// Accepte les majuscules, minuscules, caractères accentués, espace (\s) aprostrophes et tirets
+// "Accepts uppercase, lowercase, accented characters, spaces (\s), apostrophes, and hyphens."
 const nameFirstRegEx = new RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$") 
 const emailRegEx = new RegExp("^[a-zA-Z0-9._-]{2,}@[a-zA-Z0-9.-]{2,}\.[a-zA-Z]{2,}$")
 const twoOrMoreRegEx = /.{2,}/;
 const numberRegEx = /^\d+$/;
-// de 0 à 9 puis 10 à 29 puis 30 et 31 / mois / puis année commence par 19 ou 20
+/*  Date format is YYYY-MM-DD 
+* Year starting by 19 or 20 follow by two decimals
+* Month from 01 to 12 
+* Days 0 to 9 /  10 to 29 / 30 and 31 
+*/
 const dateRegEx = new RegExp("^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$") 
 
 // ------ Event listener for open and close modal  ------ 
@@ -278,5 +282,5 @@ function submitAndFetch(event) {
   }
 }
 
-// ------ function Submit ------ 
+// ------ Submit ------ 
 form.addEventListener("submit", event => submitAndFetch(event))
