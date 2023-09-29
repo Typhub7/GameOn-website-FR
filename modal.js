@@ -129,16 +129,14 @@ function checkEmail(email) {
  * - the user birthday is not after current date
  */
 function checkBDate(date) {
-  // Extract user year
-  let userDateSplit = date.split("-");
-  let userYear = userDateSplit[0];
-
-  // Extract current year
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-
-  // Age of the user calculation
-  let userAge = currentYear - userYear
+  const today = new Date();
+  const birthDate = new Date(date);
+  
+  let userAge = today.getFullYear() - birthDate.getFullYear();
+  let monthCount = today.getMonth() - birthDate.getMonth();
+  if (monthCount < 0 || (monthCount === 0 && today.getDate() < birthDate.getDate())) {
+    userAge--;
+  }
 
   if (!dateRegEx.test(date)) {
     messageDate.innerText = formErrors.badDate;
